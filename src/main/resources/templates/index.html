@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Cinema - Đặt vé xem phim</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">🎬 Smart Cinema</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Lịch Chiếu</a></li>
+        <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-3" href="#">Đăng nhập</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-uppercase fw-bold border-bottom pb-2">Phim Đang Chiếu</h2>
+
+  <div class="row">
+    <div th:each="movie : ${movies}" class="col-md-3 mb-4">
+      <div class="card h-100 shadow-sm">
+        <img th:src="${movie.posterUrl}" class="card-img-top" alt="Poster" style="height: 350px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title text-truncate" th:text="${movie.title}">Tên Phim</h5>
+          <p class="card-text text-muted small">
+            Đạo diễn: <span th:text="${movie.director}"></span><br>
+            Thời lượng: <span th:text="${movie.duration}"></span> phút
+          </p>
+          <a href="#" class="btn btn-danger w-100 fw-bold">MUA VÉ NGAY</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(movies)}" class="alert alert-warning text-center">
+    Hiện tại rạp đang cập nhật phim mới. Vui lòng quay lại sau!
+  </div>
+</div>
+
+</body>
+</html>
