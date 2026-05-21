@@ -22,6 +22,8 @@ public class Booking {
 
 	private LocalDateTime bookingDate;
 	private Double totalAmount;
+
+	@Column(nullable = false, length = 30)
 	private String status;
 
 	@OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)

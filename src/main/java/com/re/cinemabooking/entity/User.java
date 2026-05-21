@@ -18,14 +18,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 120)
     private String password;
 
     private String fullName;
     private String email;
     private String phone;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

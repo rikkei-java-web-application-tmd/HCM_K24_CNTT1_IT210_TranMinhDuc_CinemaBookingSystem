@@ -24,7 +24,7 @@ public class Movie {
 	private String director;
 	private Integer duration;
 	private String posterUrl;
-		private String status;
+	private String status;
 
 	@ManyToMany
 	@JoinTable(

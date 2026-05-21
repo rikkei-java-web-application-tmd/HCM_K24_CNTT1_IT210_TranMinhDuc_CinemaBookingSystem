@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cập nhật phim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="container pb-5">
+    <h1 class="h3 fw-bold mb-4" th:text="${movie.id == null ? 'Thêm phim' : 'Cập nhật phim'}">Cập nhật phim</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form th:action="@{/admin/movies/save}" th:object="${movie}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Tên phim</label>
+                        <input type="text" class="form-control" th:field="*{title}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Đạo diễn</label>
+                        <input type="text" class="form-control" th:field="*{director}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Thời lượng (phút)</label>
+                        <input type="number" min="1" class="form-control" th:field="*{duration}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Trạng thái</label>
+                        <select class="form-select" th:field="*{status}">
+                            <option value="ACTIVE">Đang chiếu</option>
+                            <option value="INACTIVE">Ngừng chiếu</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold">Poster URL</label>
+                        <input type="url" class="form-control" th:field="*{posterUrl}">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold">Mô tả</label>
+                        <textarea class="form-control" th:field="*{description}" rows="4"></textarea>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label fw-semibold">Thể loại</label>
+                        <select class="form-select" th:field="*{genreIds}" multiple size="4">
+                            <option th:each="genre : ${allGenres}"
+                                    th:value="${genre.id}"
+                                    th:text="${genre.name}">Thể loại</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success fw-semibold">Lưu</button>
+                    <a th:href="@{/admin/movies}" class="btn btn-secondary fw-semibold">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

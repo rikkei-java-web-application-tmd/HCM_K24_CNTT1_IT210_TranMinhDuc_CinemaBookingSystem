@@ -1,6 +1,6 @@
 package com.re.cinemabooking.controller;
 
-import com.re.cinemabooking.repository.MovieRepository;
+import com.re.cinemabooking.service.ShowtimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MovieRepository movieRepository;
+    private final ShowtimeService showtimeService;
 
     @GetMapping("/")
     public String homePage(Model model) {
-        // Lấy toàn bộ phim từ Database gửi sang giao diện
-        model.addAttribute("movies", movieRepository.findAll());
+        model.addAttribute("showtimes", showtimeService.findVisibleShowtimes());
         return "index";
     }
 }
