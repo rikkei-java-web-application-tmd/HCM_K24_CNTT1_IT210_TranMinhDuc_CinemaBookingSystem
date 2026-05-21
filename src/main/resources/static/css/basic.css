@@ -154,6 +154,8 @@ button.secondary {
     border: 1px solid #d0d7de;
     object-fit: cover;
     background: #fff;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .actions {

@@ -33,7 +33,11 @@
         <td th:text="${movie.id}">1</td>
         <td>
             <img th:if="${movie.posterUrl != null && !#strings.isEmpty(movie.posterUrl)}"
-                 th:src="${movie.posterUrl}" alt="Poster" class="poster-small">
+                 th:src="@{${movie.posterUrl}}" alt="Poster" class="poster-small"
+                 onerror="this.onerror=null;this.src='/images/no-poster.svg';">
+            <br th:if="${movie.posterUrl != null && !#strings.isEmpty(movie.posterUrl)}">
+            <a th:if="${movie.posterUrl != null && !#strings.isEmpty(movie.posterUrl)}"
+               th:href="@{${movie.posterUrl}}" target="_blank">Mở ảnh</a>
             <span th:if="${movie.posterUrl == null || #strings.isEmpty(movie.posterUrl)}">Không có ảnh</span>
         </td>
         <td th:text="${movie.title}">Tên phim</td>

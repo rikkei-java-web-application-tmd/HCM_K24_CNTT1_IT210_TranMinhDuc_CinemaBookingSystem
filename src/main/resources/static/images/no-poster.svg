@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="190" viewBox="0 0 140 190">
+    <rect width="140" height="190" fill="#eef2f5"/>
+    <rect x="12" y="12" width="116" height="166" fill="#ffffff" stroke="#b7c0c7"/>
+    <text x="70" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#455a64">NO</text>
+    <text x="70" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#455a64">POSTER</text>
+</svg>

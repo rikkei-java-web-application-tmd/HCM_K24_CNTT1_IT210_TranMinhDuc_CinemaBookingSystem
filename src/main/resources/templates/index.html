@@ -34,7 +34,11 @@
         <td th:text="${showtime.movieTitle}">Tên phim</td>
         <td>
             <img th:if="${showtime.posterUrl != null && !#strings.isEmpty(showtime.posterUrl)}"
-                 th:src="${showtime.posterUrl}" alt="Poster" class="poster-small">
+                 th:src="@{${showtime.posterUrl}}" alt="Poster" class="poster-small"
+                 onerror="this.onerror=null;this.src='/images/no-poster.svg';">
+            <br th:if="${showtime.posterUrl != null && !#strings.isEmpty(showtime.posterUrl)}">
+            <a th:if="${showtime.posterUrl != null && !#strings.isEmpty(showtime.posterUrl)}"
+               th:href="@{${showtime.posterUrl}}" target="_blank">Mở ảnh</a>
             <span th:if="${showtime.posterUrl == null || #strings.isEmpty(showtime.posterUrl)}">Không có ảnh</span>
         </td>
         <td th:text="${showtime.description}">Mô tả</td>
