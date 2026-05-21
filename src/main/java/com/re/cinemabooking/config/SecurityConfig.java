@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableMethodSecurity
@@ -33,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/staff/**").hasAnyRole("STAFF", "ADMIN")
                         .requestMatchers("/profile/**").authenticated()
+                        .requestMatchers("/history").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.POST, "/bookings/**").hasRole("CUSTOMER")
                         .requestMatchers("/bookings/**").hasRole("CUSTOMER")
                         .anyRequest().permitAll()
@@ -40,7 +42,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/perform-login")
-                        .defaultSuccessUrl("/", true)
+                        .successHandler(roleBasedSuccessHandler())
                         .failureUrl("/login?error")
                         .permitAll()
                 )
@@ -50,6 +52,15 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler roleBasedSuccessHandler() {
+        return (request, response, authentication) -> {
+            boolean admin = authentication.getAuthorities().stream()
+                    .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+            response.sendRedirect(admin ? "/admin/movies" : "/");
+        };
     }
 
     @Bean

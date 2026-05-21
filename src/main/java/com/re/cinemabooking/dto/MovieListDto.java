@@ -12,6 +12,7 @@ import java.util.List;
 public class MovieListDto {
     private Long id;
     private String title;
+    private String description;
     private String director;
     private Integer duration;
     private String posterUrl;

@@ -1,47 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quản lý suất chiếu</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/basic.css}">
 </head>
-<body class="bg-light">
+<body>
 <div th:replace="~{fragments/header :: header}"></div>
+<main>
+<h1>Quản lý suất chiếu</h1>
+<p><a th:href="@{/admin/showtimes/create}">Xếp lịch mới</a></p>
 
-<main class="container pb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 fw-bold mb-0">Quản lý suất chiếu</h1>
-        <a th:href="@{/admin/showtimes/create}" class="btn btn-success fw-semibold">Xếp lịch mới</a>
-    </div>
+<p th:if="${successMessage}" th:text="${successMessage}" class="message"></p>
+<p th:if="${errorMessage}" th:text="${errorMessage}" class="message error"></p>
 
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
-
-    <div class="card shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-dark">
-                <tr>
-                    <th>Phim</th>
-                    <th>Phòng</th>
-                    <th>Giờ bắt đầu</th>
-                    <th>Giờ kết thúc</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="showtime : ${showtimes}">
-                    <td class="fw-bold text-primary" th:text="${showtime.movieTitle}">Phim</td>
-                    <td th:text="${showtime.roomName}">Phòng</td>
-                    <td th:text="${#temporals.format(showtime.startTime, 'dd/MM/yyyy HH:mm')}">Giờ bắt đầu</td>
-                    <td class="text-muted" th:text="${#temporals.format(showtime.endTime, 'dd/MM/yyyy HH:mm')}">Giờ kết thúc</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<table>
+    <thead>
+    <tr>
+        <th>Phim</th>
+        <th>Phòng</th>
+        <th>Giờ bắt đầu</th>
+        <th>Giờ kết thúc</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="showtime : ${showtimes}">
+        <td th:text="${showtime.movieTitle}">Phim</td>
+        <td th:text="${showtime.roomName}">Phòng</td>
+        <td th:text="${#temporals.format(showtime.startTime, 'dd/MM/yyyy HH:mm')}">Giờ bắt đầu</td>
+        <td th:text="${#temporals.format(showtime.endTime, 'dd/MM/yyyy HH:mm')}">Giờ kết thúc</td>
+    </tr>
+    </tbody>
+</table>
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+

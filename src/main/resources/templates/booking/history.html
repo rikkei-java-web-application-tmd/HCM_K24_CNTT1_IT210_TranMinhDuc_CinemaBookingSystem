@@ -1,65 +1,60 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lịch sử vé</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/basic.css}">
 </head>
-<body class="bg-light">
+<body>
 <div th:replace="~{fragments/header :: header}"></div>
+<main>
+<h1>Lịch sử vé</h1>
 
-<main class="container pb-5">
-    <h1 class="h3 fw-bold mb-4">Lịch sử vé</h1>
+<p th:if="${successMessage}" th:text="${successMessage}" class="message"></p>
+<p th:if="${errorMessage}" th:text="${errorMessage}" class="message error"></p>
 
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+<p th:if="${#lists.isEmpty(bookings)}">Bạn chưa có hóa đơn đặt vé.</p>
 
-    <div th:if="${#lists.isEmpty(bookings)}" class="alert alert-warning">
-        Bạn chưa có hóa đơn đặt vé.
-    </div>
-
-    <div class="row g-4" th:if="${!#lists.isEmpty(bookings)}">
-        <div class="col-lg-6" th:each="booking : ${bookings}">
-            <article class="card shadow-sm h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between gap-3 mb-3">
-                        <div>
-                            <h2 class="h5 fw-bold mb-1" th:text="${booking.movieTitle}">Tên phim</h2>
-                            <div class="text-muted small">
-                                Hóa đơn #<span th:text="${booking.bookingId}">1</span> -
-                                <span th:text="${#temporals.format(booking.bookingDate, 'dd/MM/yyyy HH:mm')}">Ngày đặt</span>
-                            </div>
-                        </div>
-                        <span class="badge align-self-start"
-                              th:classappend="${booking.status == 'PAID'} ? 'text-bg-success' : 'text-bg-secondary'"
-                              th:text="${booking.status == 'PAID'} ? 'Đã thanh toán' : 'Đã hủy'">Trạng thái</span>
-                    </div>
-
-                    <dl class="row mb-3">
-                        <dt class="col-4">Suất chiếu</dt>
-                        <dd class="col-8" th:text="${#temporals.format(booking.startTime, 'dd/MM/yyyy HH:mm')}">Giờ chiếu</dd>
-                        <dt class="col-4">Phòng</dt>
-                        <dd class="col-8" th:text="${booking.roomName}">Phòng</dd>
-                        <dt class="col-4">Ghế</dt>
-                        <dd class="col-8" th:text="${booking.seatLabel}">A1</dd>
-                        <dt class="col-4">Tổng tiền</dt>
-                        <dd class="col-8 mb-0">
-                            <span th:text="${#numbers.formatDecimal(booking.totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span> VND
-                        </dd>
-                    </dl>
-
-                    <form th:if="${booking.cancellable}" th:action="@{/bookings/{id}/cancel(id=${booking.bookingId})}" method="post"
-                          onsubmit="return confirm('Bạn có chắc chắn muốn hủy hóa đơn này?');">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                        <button type="submit" class="btn btn-outline-danger btn-sm fw-semibold">Hủy vé</button>
-                    </form>
-                </div>
-            </article>
-        </div>
-    </div>
+<table th:if="${!#lists.isEmpty(bookings)}">
+    <thead>
+    <tr>
+        <th>Mã hóa đơn</th>
+        <th>Ngày đặt</th>
+        <th>Phim</th>
+        <th>Suất chiếu</th>
+        <th>Phòng</th>
+        <th>Ghế</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái</th>
+        <th>Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="booking : ${bookings}">
+        <td th:text="${booking.bookingId}">1</td>
+        <td th:text="${#temporals.format(booking.bookingDate, 'dd/MM/yyyy HH:mm')}">Ngày đặt</td>
+        <td th:text="${booking.movieTitle}">Tên phim</td>
+        <td th:text="${#temporals.format(booking.startTime, 'dd/MM/yyyy HH:mm')}">Giờ chiếu</td>
+        <td th:text="${booking.roomName}">Phòng</td>
+        <td th:text="${booking.seatLabel}">A1</td>
+        <td>
+            <span th:text="${#numbers.formatDecimal(booking.totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span> VND
+        </td>
+        <td th:text="${booking.status == 'PAID'} ? 'Đã thanh toán' : 'Đã hủy'">Trạng thái</td>
+        <td>
+            <form th:if="${booking.cancellable}" th:action="@{/bookings/{id}/cancel(id=${booking.bookingId})}" method="post"
+                  onsubmit="return confirm('Bạn có chắc chắn muốn hủy hóa đơn này?');">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit">Hủy vé</button>
+            </form>
+            <span th:if="${!booking.cancellable}">Không thể hủy</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+

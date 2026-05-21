@@ -32,14 +32,14 @@ public class BookingController {
         try {
             Long bookingId = bookingService.bookTickets(authentication.getName(), request);
             ra.addFlashAttribute("successMessage", "Đặt vé thành công. Mã hóa đơn: #" + bookingId);
-            return "redirect:/bookings/history";
+            return "redirect:/history";
         } catch (IllegalArgumentException e) {
             ra.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/showtimes/" + request.getShowtimeId() + "/seats";
         }
     }
 
-    @GetMapping("/bookings/history")
+    @GetMapping({"/history", "/bookings/history"})
     public String history(Authentication authentication, Model model) {
         model.addAttribute("bookings", bookingService.getHistory(authentication.getName()));
         return "booking/history";
@@ -55,6 +55,6 @@ public class BookingController {
         } catch (IllegalArgumentException e) {
             ra.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/bookings/history";
+        return "redirect:/history";
     }
 }

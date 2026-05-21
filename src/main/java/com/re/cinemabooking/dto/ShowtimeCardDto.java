@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ShowtimeCardDto {
     private Long id;
     private String movieTitle;
+    private String description;
     private String posterUrl;
     private Integer duration;
     private String roomName;
@@ -16,11 +17,12 @@ public class ShowtimeCardDto {
     private Long soldSeats;
     private boolean soldOut;
 
-    public ShowtimeCardDto(Long id, String movieTitle, String posterUrl, Integer duration,
+    public ShowtimeCardDto(Long id, String movieTitle, String description, String posterUrl, Integer duration,
                            String roomName, LocalDateTime startTime, Integer totalSeats,
                            Long soldSeats) {
         this.id = id;
         this.movieTitle = movieTitle;
+        this.description = description;
         this.posterUrl = posterUrl;
         this.duration = duration;
         this.roomName = roomName;

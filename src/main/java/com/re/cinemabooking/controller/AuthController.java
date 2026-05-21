@@ -55,7 +55,7 @@ public class AuthController {
             context.setAuthentication(authentication);
             SecurityContextHolder.setContext(context);
             securityContextRepository.saveContext(context, servletRequest, servletResponse);
-            return "redirect:/";
+            return adminRedirect(authentication);
         } catch (BadCredentialsException e) {
             bindingResult.reject("login.failed", "Tên đăng nhập hoặc mật khẩu không đúng.");
             return "auth/login";
@@ -86,5 +86,11 @@ public class AuthController {
             bindingResult.rejectValue("username", "username.exists", e.getMessage());
             return "auth/register";
         }
+    }
+
+    private String adminRedirect(Authentication authentication) {
+        boolean admin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        return admin ? "redirect:/admin/movies" : "redirect:/";
     }
 }

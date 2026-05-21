@@ -89,6 +89,7 @@ public class MovieService {
         return new MovieListDto(
                 movie.getId(),
                 movie.getTitle(),
+                movie.getDescription(),
                 movie.getDirector(),
                 movie.getDuration(),
                 movie.getPosterUrl(),

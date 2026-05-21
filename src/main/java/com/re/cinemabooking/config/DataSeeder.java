@@ -12,6 +12,7 @@ import com.re.cinemabooking.repository.SeatRepository;
 import com.re.cinemabooking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
+@ConditionalOnProperty(name = "app.seed.enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class DataSeeder implements CommandLineRunner {
 

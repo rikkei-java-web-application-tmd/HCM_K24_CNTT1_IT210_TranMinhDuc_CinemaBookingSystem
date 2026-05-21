@@ -34,7 +34,7 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
 
 	@Query("""
 			SELECT new com.re.cinemabooking.dto.ShowtimeCardDto(
-				s.id, m.title, m.posterUrl, m.duration, r.name, s.startTime,
+				s.id, m.title, m.description, m.posterUrl, m.duration, r.name, s.startTime,
 				r.totalSeats, COUNT(t.id)
 			)
 			FROM Showtime s
@@ -43,7 +43,7 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
 			LEFT JOIN Ticket t ON t.showtime = s AND t.booking.status = 'PAID'
 			WHERE s.startTime >= :now
 			  AND m.status = 'ACTIVE'
-			GROUP BY s.id, m.title, m.posterUrl, m.duration, r.name, s.startTime, r.totalSeats
+			GROUP BY s.id, m.title, m.description, m.posterUrl, m.duration, r.name, s.startTime, r.totalSeats
 			ORDER BY s.startTime ASC
 			""")
 	List<ShowtimeCardDto> findVisibleShowtimeCards(@Param("now") LocalDateTime now);

@@ -1,56 +1,49 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Xếp lịch chiếu</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/basic.css}">
 </head>
-<body class="bg-light">
+<body>
 <div th:replace="~{fragments/header :: header}"></div>
+<main>
+<h1>Xếp lịch chiếu</h1>
 
-<main class="container pb-5">
-    <h1 class="h3 fw-bold mb-4">Xếp lịch chiếu</h1>
+<p th:if="${errorMessage}" th:text="${errorMessage}" class="message error"></p>
 
-    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+<form th:action="@{/admin/showtimes/save}" th:object="${showtime}" method="post" class="panel form-box">
+    <p>
+        <label>Phim</label><br>
+        <select th:field="*{movieId}" required>
+            <option value="">Chọn phim</option>
+            <option th:each="movie : ${movies}"
+                    th:value="${movie.id}"
+                    th:text="${movie.title + ' - ' + movie.duration + ' phút'}">Phim</option>
+        </select>
+    </p>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <form th:action="@{/admin/showtimes/save}" th:object="${showtime}" method="post">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label fw-semibold">Phim</label>
-                        <select class="form-select" th:field="*{movieId}" required>
-                            <option value="">Chọn phim</option>
-                            <option th:each="movie : ${movies}"
-                                    th:value="${movie.id}"
-                                    th:text="${movie.title + ' - ' + movie.duration + ' phút'}">Phim</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label fw-semibold">Phòng</label>
-                        <select class="form-select" th:field="*{roomId}" required>
-                            <option value="">Chọn phòng</option>
-                            <option th:each="room : ${rooms}"
-                                    th:value="${room.id}"
-                                    th:text="${room.name + ' (' + room.totalSeats + ' ghế)'}">Phòng</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label fw-semibold">Giờ bắt đầu</label>
-                        <input type="datetime-local" class="form-control" th:field="*{startTime}" required>
-                    </div>
-                </div>
+    <p>
+        <label>Phòng</label><br>
+        <select th:field="*{roomId}" required>
+            <option value="">Chọn phòng</option>
+            <option th:each="room : ${rooms}"
+                    th:value="${room.id}"
+                    th:text="${room.name + ' (' + room.totalSeats + ' ghế)'}">Phòng</option>
+        </select>
+    </p>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success fw-semibold">Lưu lịch chiếu</button>
-                    <a th:href="@{/admin/showtimes}" class="btn btn-secondary fw-semibold">Hủy</a>
-                </div>
-            </form>
-        </div>
-    </div>
+    <p>
+        <label>Giờ bắt đầu</label><br>
+        <input type="datetime-local" th:field="*{startTime}" required>
+    </p>
+
+    <button type="submit">Lưu lịch chiếu</button>
+    <a th:href="@{/admin/showtimes}">Hủy</a>
+</form>
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
